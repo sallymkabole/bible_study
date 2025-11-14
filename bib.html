@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Friday Bible Study – Exodus Journey</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>/* ===== Full CSS (flat colors, no gradients) ===== */
+
+/* ---------- COLOR VARIABLES ---------- */
+:root {
+  /* Palette — warm + growth (flat colors) */
+  --bg-primary: #0b2b20;        /* page background (dark) */
+  --bg-secondary: #123629;      /* secondary background (dark) */
+  --card-bg: #ffffff;           /* card background (flat white) */
+  --card-bg-dark: #07120e;      /* fallback dark card (not used in default) */
+  --accent-leaf: #16a34a;       /* main accent (leaf green) */
+  --accent-gold: #f59e0b;       /* highlight accent (gold) */
+  --accent-amber: #d97706;      /* secondary warm */
+  --accent-soft: rgba(22,163,74,0.12); /* subtle panel wash (semi-transparent) */
+  --text-main: #05241b;         /* primary text (dark green) */
+  --text-muted: #14532d;        /* muted secondary text */
+  --text-subtle: #6b7280;       /* subtle neutral */
+  --border-soft: rgba(6,95,70,0.10); /* soft border */
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+  --shadow-elevated: 0 20px 40px rgba(2,6,10,0.20);
+  --shadow-soft: 0 8px 20px rgba(2,6,10,0.10);
+}
+
+/* Light theme override (flat colors) */
+[data-theme="light"] {
+  --bg-primary: #f6fbf7;       
+  --bg-secondary: #ecf7ee;
+  --card-bg: #ffffff;
+  --card-bg-dark: #ffffff;
+  --accent-leaf: #16a34a;
+  --accent-gold: #f59e0b;
+  --accent-amber: #d97706;
+  --accent-soft: rgba(16,163,98,0.06);
+  --text-main: #064e3b;
+  --text-muted: #14532d;
+  --text-subtle: #6b7280;
+  --border-soft: rgba(16,163,98,0.10);
+  --shadow-elevated: 0 20px 40px rgba(6,95,70,0.06);
+  --shadow-soft: 0 8px 20px rgba(6,95,70,0.04);
+}
+
+/* ---------- RESET & BASE ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg-primary); /* flat background color */
+  color: var(--text-main);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* page container */
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* ---------- HEADER ---------- */
+header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.header-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+header h1 {
+  font-size: 2.2rem;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* logo badge (flat) */
+.logo-badge {
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
+  background-color: var(--accent-leaf); /* flat color */
+  padding: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-soft);
+}
+.logo-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 13px;
+  background-color: var(--card-bg);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color: var(--accent-leaf);
+  font-weight: 900;
+  font-size: 1.15rem;
+}
+
+/* header controls */
+.header-controls {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+.theme-toggle {
+  background: var(--card-bg);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-pill);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  color: var(--text-main);
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.theme-toggle:hover { transform: translateY(-2px); box-shadow: var(--shadow-soft); }
+
+/* countdown */
+.countdown {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-pill);
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* subtitle & pills */
+.subtitle { color: var(--text-muted); font-size: 1rem; line-height: 1.6; }
+.pill-row { display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:0.5rem; }
+.pill {
+  font-size: 0.8rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-soft);
+  background: var(--card-bg);
+  color: var(--text-main);
+  display:inline-flex;
+  align-items:center;
+  gap:0.4rem;
+  backdrop-filter: blur(6px);
+}
+.pill span.icon { font-size:1rem; }
+
+/* ---------- MAIN GRID ---------- */
+main { display: grid; gap: 1.5rem; }
+@media (min-width: 900px) {
+  main { grid-template-columns: 1.2fr 1fr; align-items:flex-start; }
+}
+.column { display:flex; flex-direction:column; gap:1.5rem; }
+
+/* ---------- CARD ---------- */
+.card {
+  position: relative;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-soft);
+  overflow: visible;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  z-index: 10; /* ensure cards sit above page background */
+}
+.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-elevated); }
+
+/* remove intrusive overlay that could hide content; keep a subtle flat marker instead */
+.card::before { content: ""; position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; background-color: transparent; pointer-events: none; z-index: 0; }
+.card > * { position: relative; z-index: 12; }
+
+/* highlighted card */
+.card.highlight {
+  border: 2px solid var(--accent-gold);
+  box-shadow: 0 8px 24px rgba(245,158,11,0.08);
+}
+
+/* headings within cards */
+.card h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.3rem;
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+  font-weight:700;
+  color: var(--text-main);
+}
+.card h2 span.icon { font-size:1.4rem; }
+.subtext { margin:0 0 1rem; font-size:0.9rem; color:var(--text-muted); line-height:1.5; }
+
+/* session meta panel */
+.session-meta {
+  display:grid;
+  gap:0.75rem;
+  margin:1rem 0;
+  padding:1rem;
+  background: var(--card-bg); /* flat */
+  border-radius: 12px;
+  border: 1px solid var(--border-soft);
+}
+.meta-row { display:flex; align-items:center; gap:0.75rem; }
+.meta-label { font-weight:700; color: var(--accent-leaf); min-width:90px; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em; }
+.meta-value { color: var(--text-main); font-size:0.95rem; }
+
+/* halo badge (flat) */
+.halo-badge {
+  display:inline-flex; align-items:center; gap:0.5rem;
+  padding:0.5rem 1rem; border-radius: var(--radius-pill);
+  background-color: var(--accent-leaf); color: white; font-size:0.85rem; font-weight:700; margin-bottom:0.75rem;
+  box-shadow: var(--shadow-soft);
+}
+.halo-badge span.icon { font-size:1.1rem; }
+
+/* passage */
+.passage { margin:0.5rem 0 1rem; font-size:1.1rem; font-weight:700; color:var(--text-main); }
+.passage small { display:block; margin-top:0.3rem; font-weight:500; color:var(--text-muted); font-size:0.9rem; }
+
+/* ---------- BUTTONS ---------- */
+.btn-row { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem; }
+.btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:0.5rem;
+  padding:0.75rem 1.5rem; border-radius:var(--radius-pill); border:none;
+  background-color: var(--accent-leaf);
+  color: white; font-size:0.9rem; font-weight:700; text-decoration:none; cursor:pointer;
+  white-space:nowrap; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+.btn span.icon { font-size:1rem; }
+.btn.outline {
+  background: transparent; color: var(--accent-leaf); border: 2px solid var(--accent-leaf); box-shadow:none;
+}
+.btn.outline:hover { background: var(--card-bg); }
+
+/* section label */
+.section-label { font-size: 0.75rem; text-transform:uppercase; letter-spacing:0.15em; color:var(--text-subtle); margin-bottom:0.75rem; font-weight:700; }
+
+/* list items */
+.list { list-style:none; display:flex; flex-direction:column; gap:0.75rem; }
+.list-item {
+  padding:1rem; border-radius:14px; border:1px solid var(--border-soft);
+  background: var(--card-bg); transition: all 0.2s ease;
+}
+.list-item:hover { border-color: var(--accent-leaf); transform: translateX(4px); }
+.list-item-header { display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:0.5rem; font-weight:700; color:var(--text-main); font-size:0.95rem; }
+.list-item-meta { display:flex; flex-wrap:wrap; gap:0.75rem; font-size:0.85rem; color:var(--text-muted); }
+.list-item a { color: var(--accent-leaf); text-decoration:none; font-weight:600; font-size:0.85rem; transition: color 0.2s ease; }
+.list-item a:hover { color: var(--accent-gold); text-decoration:underline; }
+
+/* pill-event */
+.pill-event {
+  display:inline-flex; align-items:center; gap:0.3rem; padding:0.25rem 0.75rem; border-radius:var(--radius-pill);
+  font-size:0.7rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em;
+}
+.pill-event.study { background: rgba(22,163,74,0.08); color: var(--text-main); border: 1px solid rgba(22,163,74,0.18); }
+.pill-event.game { background: rgba(59,130,246,0.08); color: #1e3a8a; border: 1px solid rgba(59,130,246,0.18); }
+.pill-event.movie { background: rgba(245,158,11,0.08); color: #92400e; border: 1px solid rgba(245,158,11,0.14); }
+
+/* journey steps */
+.journey { display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:1rem; }
+.journey-step {
+  padding:0.6rem 1rem; border-radius:var(--radius-pill); border:2px dashed var(--border-soft);
+  font-size:0.8rem; color:var(--text-subtle); transition:all 0.2s ease;
+}
+.journey-step:hover { border-color: var(--accent-leaf); }
+.journey-step.current {
+  border-style: solid; border-color: var(--accent-leaf); color: var(--accent-leaf);
+  background: var(--card-bg); font-weight:700; box-shadow: 0 0 10px rgba(22,163,74,0.05);
+}
+
+/* gallery */
+.gallery {
+  display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:1rem; margin-top:1rem;
+}
+.gallery img {
+  width:100%; height:180px; object-fit:cover; border-radius:14px; border:2px solid var(--border-soft); box-shadow: var(--shadow-soft); transition: transform 0.25s ease, box-shadow 0.25s ease;
+  min-height: 140px;
+  background-color: #f3f5f4; /* fallback flat background if image missing */
+}
+.gallery img:hover { transform: scale(1.05); box-shadow: var(--shadow-elevated); }
+
+/* small note */
+.small-note { font-size:0.8rem; color: var(--text-subtle); margin-top:1rem; padding:0.75rem; background: var(--card-bg); border-radius:8px; border-left:3px solid var(--accent-leaf); }
+
+/* resources grid */
+.resources-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap:0.75rem; margin-top:1rem; }
+.resource-link {
+  padding:1rem; border-radius:12px; border:1px solid var(--border-soft); background: var(--card-bg); text-align:center; text-decoration:none; color:var(--text-main); font-size:0.85rem; font-weight:600; transition: all 0.2s ease; display:flex; flex-direction:column; gap:0.5rem; align-items:center;
+}
+.resource-link:hover { border-color: var(--accent-leaf); transform: translateY(-2px); }
+
+/* discussion questions */
+.discussion-questions { margin-top:1rem; padding:1rem; background: var(--card-bg); border-radius:12px; border-left:4px solid var(--accent-leaf); }
+.discussion-questions h3 { font-size:0.9rem; margin-bottom:0.75rem; color: var(--accent-leaf); text-transform:uppercase; letter-spacing:0.1em; }
+.discussion-questions ol { margin-left:1.25rem; display:flex; flex-direction:column; gap:0.5rem; }
+.discussion-questions li { font-size:0.9rem; color: var(--text-muted); line-height:1.6; }
+
+/* footer */
+footer { margin-top:3rem; padding-top:2rem; border-top:1px solid var(--border-soft); font-size:0.8rem; color: var(--text-subtle); text-align:center; }
+
+/* responsive tweaks */
+@media (max-width: 768px) {
+  header h1 { font-size:1.6rem; }
+  .card { padding: 1.25rem; }
+  .gallery { grid-template-columns: 1fr; }
+}
+
+/* END OF CSS */</style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="header-top">
+        <h1>
+          <span class="logo-badge">
+            <span class="logo-inner">Ex</span>
+          </span>
+          Friday Bible Study
+        </h1>
+        <div class="header-controls">
+          <button class="theme-toggle" id="theme-toggle">
+            <span>🌙</span>
+            <span>Theme</span>
+          </button>
+          <div class="countdown" id="countdown">Next: ...</div>
+        </div>
+      </div>
+      <p class="subtitle">
+        Journey through Exodus together – tracking our studies, special events, and growing in faith as a community.
+      </p>
+      <div class="pill-row">
+        <span class="pill"><span class="icon">📍</span>37 KG 103 St.</span>
+        <span class="pill"><span class="icon">🕡</span>Fridays · 6:30–7:30 PM</span>
+        <span class="pill"><span class="icon">📖</span>Book of Exodus · Ch. 19</span>
+      </div>
+    </header>
+
+    <main>
+      <!-- LEFT COLUMN -->
+      <section class="column">
+        <!-- Next Session -->
+        <article class="card highlight">
+          <h2><span class="icon"></span>Today's Session</h2>
+          <p class="subtext">Join us this Friday for our regular gathering as we continue through Exodus.</p>
+
+          <div class="session-meta">
+            <div class="meta-row">
+              <div class="meta-label">When</div>
+              <div class="meta-value">Every Friday · 6:30–7:30 PM</div>
+            </div>
+            <div class="meta-row">
+              <div class="meta-label">Where</div>
+              <div class="meta-value">37 KG 103 St.</div>
+            </div>
+            <div class="meta-row">
+              <div class="meta-label">Series</div>
+              <div class="meta-value">Book of Exodus</div>
+            </div>
+            <div class="meta-row">
+              <div class="meta-label">Leader</div>
+              <div class="meta-value" id="current-leader">Godbright</div>
+            </div>
+          </div>
+
+          <div class="halo-badge">
+            <span class="icon">⛅</span>
+            This Week's Focus
+          </div>
+          <p class="passage">
+            Exodus 19 – God Meets Israel at Sinai
+            <small>Preparing to receive the covenant and God's holy presence</small>
+          </p>
+
+          <div class="discussion-questions">
+            <h3>Discussion Questions</h3>
+            <ol>
+              <li>Is God for the Israel alone ?</li>
+              <li>At this point did they really know  what the Covenant entailed?  2.Was this the first point when a covenant with God appears ? ?</li>
+              <li>What’s your idea of  Consecration? And what do you usually practice before you come close to the face of God.</li>
+            </ol>
+          </div>
+
+          <div class="btn-row">
+            <a href="https://www.biblegateway.com/passage/?search=Exodus+19&version=ESV" class="btn" target="_blank">
+              <span class="icon">📖</span>
+              Read Exodus 19 (ESV)
+            </a>
+            <a href="https://www.google.com/maps/search/?api=1&query=37+KG+103+St" class="btn outline" target="_blank">
+              <span class="icon">🗺️</span>
+              Get Directions
+            </a>
+          </div>
+        </article>
+        <!-- NEXT LEADER (place inside RIGHT COLUMN, before Quick Links) -->
+<article class="card" id="next-leader-card">
+  <h2><span class="icon">🪧</span>Next Leader</h2>
+  <p class="subtext">Who's leading the upcoming sessions</p>
+
+  <!-- Shows the next single leader and date -->
+  <div class="session-meta" style="margin-bottom:0.75rem;">
+    <div class="meta-row">
+      <div class="meta-label">Next</div>
+      <div class="meta-value" id="next-leader-name">Loading...</div>
+    </div>
+    <div class="meta-row">
+      <div class="meta-label">Date</div>
+      <div class="meta-value" id="next-leader-date">—</div>
+    </div>
+  </div>
+
+  <!-- Optional: show a short list of upcoming leaders -->
+  <div class="section-label" style="margin-top:0.5rem;">Upcoming Leaders</div>
+  <ul class="list" id="upcoming-leaders-list" style="margin-top:0.5rem;"></ul>
+</article>
+
+        <!-- Recent Studies & Notes -->
+        <article class="card">
+          <h2><span class="icon">📚</span>Recent Studies & Notes</h2>
+          <p class="subtext">
+            Quick access to our past sessions. All notes are stored in our shared Google Drive folder.
+          </p>
+
+          <div class="section-label">Latest Sessions</div>
+          <ul class="list" id="studies-list"></ul>
+
+          <!-- <p class="small-note">
+            💡 <strong>Tip:</strong> Update the studies array in the script section when adding new sessions.
+          </p> -->
+        </article>
+
+        <!-- Exodus Journey Overview -->
+        <article class="card">
+          <h2><span class="icon">🧭</span>Our Exodus Journey</h2>
+          <p class="subtext">
+            Track our progress through the book and see what's coming next on our journey together.
+          </p>
+
+          <div class="journey">
+            <span class="journey-step">Ch. 1–15 · Rescue from Egypt ✅</span>
+            <span class="journey-step">Ch. 16–18 · Wilderness ✅</span>
+            <span class="journey-step current">Ch. 19 · At Sinai (now)</span>
+            <span class="journey-step">Ch. 20–24 · The Covenant 🔜</span>
+            <span class="journey-step">Ch. 25+ · Tabernacle 🔜</span>
+          </div>
+        </article>
+
+        <!-- Resources -->
+        <article class="card">
+          <h2><span class="icon">📖</span>Study Resources</h2>
+          <p class="subtext">Helpful tools and references for deeper study of Exodus.</p>
+
+          <div class="resources-grid">
+            <a href="https://www.biblegateway.com" class="resource-link" target="_blank">
+              <span class="icon">📖</span>
+              Bible Gateway
+            </a>
+            <!-- <a href="https://www.blueletterbible.org" class="resource-link" target="_blank">
+              <span class="icon">🔍</span>
+              Blue Letter Bible
+            </a> -->
+            <a href="https://www.thebibleproject.com/explore/video/exodus-1-18/" class="resource-link" target="_blank">
+              <span class="icon">🎥</span>
+              Bible Project
+            </a>
+            <a href="https://drive.google.com/drive/folders/1y5M9I8Nz1YdXbgn4wU6zCTfct413B3GM?usp=drive_link" class="resource-link">
+              <span class="icon">📝</span>
+              Group Notes
+            </a>
+          </div>
+        </article>
+
+        <!-- Group Photos -->
+        <article class="card">
+          <h2><span class="icon">📸</span>Our Community</h2>
+          <p class="subtext">
+            The wonderful people who make this study come alive each week.
+          </p>
+
+          <div class="gallery">
+            <img src="group1.jpg" alt="Bible study group gathering" />
+            <img src="group2.jpg" alt="Group discussion moment" />
+          </div>
+          <p class="gallery-caption">
+            #KigaliBibleStudy2025
+          </p>
+        </article>
+      </section>
+
+      <!-- RIGHT COLUMN -->
+      <section class="column">
+        <!-- Special Events -->
+        <article class="card">
+          <h2><span class="icon">🎉</span>Special Events</h2>
+          <p class="subtext">Game nights, movie nights, and fun fellowship beyond our regular studies.</p>
+
+          <ul class="list" id="events-list"></ul>
+
+          <!-- <p class="small-note">
+            📅 <strong>Planning something?</strong> Edit the events array in the script to add new events!
+          </p> -->
+        </article>
+<!-- 
+        Who's Coming
+        <article class="card">
+          <h2><span class="icon">👥</span>Who's Coming This Friday?</h2>
+          <p class="subtext">Let the group know you'll be there!</p>
+
+          <div id="attendance-list" style="margin-top: 1rem;">
+            <div style="padding: 1rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+              Coming soon: Attendance tracker
+            </div>
+          </div>
+
+          <p class="small-note">
+            ✅ This feature could be enhanced with a simple check-in system or linked to your group chat.
+          </p>
+        </article> -->
+
+        <!-- Prayer Requests -->
+        <article class="card">
+          <h2><span class="icon">🙏</span>Prayer Requests</h2>
+          <p class="subtext">Share and lift up one another in prayer.</p>
+
+          <ul class="list">
+            <li class="list-item">
+              <div class="list-item-header">
+                <span>For wisdom in our study</span>
+              </div>
+              <div class="list-item-meta">
+                <span>That God would open our eyes to His truth</span>
+              </div>
+            </li>
+            <!-- <li class="list-item">
+              <div class="list-item-header">
+                <span>Group members traveling</span>
+              </div>
+              <div class="list-item-meta">
+                <span>Safety and God's presence with them</span>
+              </div>
+            </li> -->
+          </ul>
+
+          <!-- <p class="small-note">
+            💬 Share prayer requests in your group chat or add them to the shared notes document.
+          </p> -->
+        </article>
+
+        <!-- Quick Links -->
+        <article class="card">
+          <h2><span class="icon">🔗</span>Quick Links</h2>
+          <p class="subtext">Important links for our group.</p>
+
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+            <a href="#" class="btn outline" style="width: 100%;">
+              <span class="icon">💬</span>
+              Group Chat
+            </a>
+            <a href="https://drive.google.com/drive/folders/1y5M9I8Nz1YdXbgn4wU6zCTfct413B3GM?usp=drive_link" class="btn outline" style="width: 100%;">
+              <span class="icon">📁</span>
+              Shared Drive
+            </a>
+            <!-- <a href="#" class="btn outline" style="width: 100%;">
+              <span class="icon">📧</span>
+              Email the Group
+            </a> -->
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <p>Built with ❤️ for our Friday Bible Study group</p>
+      <p style="margin-top: 0.5rem; font-size: 0.75rem;">Currently journeying through the Book of Exodus</p>
+    </footer>
+  </div>
+
+  <script>
+    // === Theme Toggle ===
+    const themeToggle = document.getElementById('theme-toggle');
+    const body = document.body;
+    
+    // Check for saved theme preference or default to 'dark'
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    body.setAttribute('data-theme', currentTheme);
+    updateThemeIcon(currentTheme);
+
+    themeToggle.addEventListener('click', () => {
+      const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      body.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      updateThemeIcon(theme);
+    });
+
+    function updateThemeIcon(theme) {
+      const icon = themeToggle.querySelector('span:first-child');
+      icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+
+    // === Countdown Timer ===
+    function updateCountdown() {
+      const now = new Date();
+      const dayOfWeek = now.getDay();
+      const currentHour = now.getHours();
+      const currentMinute = now.getMinutes();
+      
+      // Friday is 5, calculate days until next Friday
+      let daysUntilFriday = (5 - dayOfWeek + 7) % 7;
+      
+      // If it's Friday but past 7:30 PM, count to next Friday
+      if (dayOfWeek === 5 && (currentHour > 19 || (currentHour === 19 && currentMinute >= 30))) {
+        daysUntilFriday = 7;
+      }
+      
+      // If it's Friday before 6:30 PM, it's today
+      if (daysUntilFriday === 0) {
+        const minutesUntil = (18 * 60 + 30) - (currentHour * 60 + currentMinute);
+        if (minutesUntil > 60) {
+          const hours = Math.floor(minutesUntil / 60);
+          document.getElementById('countdown').textContent = `Today in ${hours}h ${minutesUntil % 60}m`;
+        } else if (minutesUntil > 0) {
+          document.getElementById('countdown').textContent = `Starting in ${minutesUntil}m!`;
+        } else {
+          document.getElementById('countdown').textContent = `Happening now! 🎉`;
+        }
+      } else if (daysUntilFriday === 1) {
+        document.getElementById('countdown').textContent = 'Tomorrow at 6:30 PM';
+      } else {
+        document.getElementById('countdown').textContent = `${daysUntilFriday} days`;
+      }
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 60000); // Update every minute
+
+    // === Studies data ===
+    const studies = [
+      {
+        title: "Exodus 18 – Jethro's Wisdom",
+        theme: "Shared leadership & delegation",
+        notesUrl: "https://drive.google.com/drive/folders/1y5M9I8Nz1YdXbgn4wU6zCTfct413B3GM?usp=drive_link", // replace with actual Drive link
+        date: "Nov 7, 2025"
+      },
+      {
+        title: "Exodus 17 – Water & War",
+        theme: "God's provision & victory",
+        notesUrl: "https://drive.google.com/drive/folders/1y5M9I8Nz1YdXbgn4wU6zCTfct413B3GM?usp=drive_link",
+        date: "Oct 31, 2025"
+      },
+      {
+        title: "Exodus 16 – Manna from Heaven",
+        theme: "Daily dependence on God",
+        notesUrl: "https://drive.google.com/drive/folders/1y5M9I8Nz1YdXbgn4wU6zCTfct413B3GM?usp=drive_link",
+        date: "Oct 24, 2025"
+      },
+      {
+        title: "Exodus 15 – Song of Moses",
+        theme: "Worship after deliverance",
+        notesUrl: "https://drive.google.com/drive/folders/1y5M9I8Nz1YdXbgn4wU6zCTfct413B3GM?usp=drive_link",
+        date: "Oct 17, 2025"
+      }
+    ];
+
+    // === Events data ===
+    const events = [
+      {
+        title: "Post-Study Game Night",
+        type: "Game Night",
+        typeClass: "game",
+        details: [
+          "Right after Bible study",
+          "Enjoy snacks + your favorite board games 🎲",
+          "Stay casual, stay for fun!"
+        ]
+      },
+      {
+        title: "Movie Night – TBD",
+        type: "Movie Night",
+        typeClass: "movie",
+        details: [
+          "Fri, Dec XX· 7:00 PM",
+          "Classics,Comedy we're in for the fun 🎬",
+          "Popcorn provided!"
+        ]
+      }
+      // {
+      //   title: "Snacks & Stories",
+      //   type: "Fellowship",
+      //   typeClass: "study",
+      //   details: [
+      //     "Weekly",
+      //     "Snacks after study 🍽️"
+      //   ]
+      // }
+    ];
+
+    function renderStudies() {
+      const container = document.getElementById("studies-list");
+      container.innerHTML = "";
+
+      studies.forEach(study => {
+        const li = document.createElement("li");
+        li.className = "list-item";
+
+        li.innerHTML = `
+          <div class="list-item-header">
+            <span>${study.title}</span>
+            <span class="pill-event study">Study</span>
+          </div>
+          <div class="list-item-meta">
+            <span>📅 ${study.date}</span>
+            <span>💡 ${study.theme}</span>
+            ${study.notesUrl !== '#' ? `<a href="${study.notesUrl}" target="_blank">📝 View notes</a>` : '<span style="opacity: 0.6;">Notes coming soon</span>'}
+          </div>
+        `;
+
+        container.appendChild(li);
+      });
+    }
+
+    function renderEvents() {
+      const container = document.getElementById("events-list");
+      container.innerHTML = "";
+
+      events.forEach(event => {
+        const li = document.createElement("li");
+        li.className = "list-item";
+
+        const detailsHtml = event.details
+          .map(d => `<span>${d}</span>`)
+          .join("");
+
+        li.innerHTML = `
+          <div class="list-item-header">
+            <span>${event.title}</span>
+            <span class="pill-event ${event.typeClass}">${event.type}</span>
+          </div>
+          <div class="list-item-meta">
+            ${detailsHtml}
+          </div>
+        `;
+
+        container.appendChild(li);
+      });
+    }
+
+    // === Next leaders data ===
+// Example: replace/add entries as you schedule leaders
+const nextLeaders = [
+  { name: "Godbright", date: "Nov 14, 2025", notes: "Exodus 19" },
+  { name: "Sals", date: "Nov 21, 2025", notes: "Exodus 20" },
+  { name: "Nonso", date: "Nov 28, 2025", notes: "Exodus 21" }
+];
+
+// render next leader card (single next + upcoming list)
+function renderNextLeader() {
+  const nextNameEl = document.getElementById('next-leader-name');
+  const nextDateEl = document.getElementById('next-leader-date');
+  const upcomingList = document.getElementById('upcoming-leaders-list');
+  const currentLeaderEl = document.getElementById('current-leader');
+
+  if (!nextLeaders || nextLeaders.length === 0) {
+    nextNameEl.textContent = 'TBD';
+    nextDateEl.textContent = '—';
+    upcomingList.innerHTML = '<li class="list-item">No scheduled leaders yet.</li>';
+    return;
+  }
+
+  // Next leader = first item
+  const next = nextLeaders[0];
+  nextNameEl.textContent = `${next.name}`;
+  nextDateEl.textContent = `${next.date}`;
+  // Optionally update the "Leader" field in the main Next Session card
+  if (currentLeaderEl) currentLeaderEl.textContent = next.name;
+
+  // Render upcoming list (skip the first entry that is already shown)
+  upcomingList.innerHTML = '';
+  nextLeaders.slice(0, 6).forEach((l, idx) => {
+    const li = document.createElement('li');
+    li.className = 'list-item';
+    li.innerHTML = `
+      <div class="list-item-header">
+        <span>${l.name}</span>
+        <span style="font-size:0.75rem; color:var(--text-muted)">${l.date}</span>
+      </div>
+      <div class="list-item-meta">
+        <span style="color:var(--text-muted)">${l.notes || ''}</span>
+      </div>
+    `;
+    upcomingList.appendChild(li);
+  });
+}
+
+// call it after page loads (you can also call renderNextLeader() whenever you update nextLeaders)
+renderNextLeader();
+
+    // Initialize
+    renderStudies();
+    renderEvents();
+  </script>
+</body>
+</html>
